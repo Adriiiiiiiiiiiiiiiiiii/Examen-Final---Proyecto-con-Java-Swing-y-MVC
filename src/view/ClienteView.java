@@ -1,0 +1,63 @@
+package view;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+
+public class ClienteView extends JPanel {
+    private JTable clientesTable;
+    private JButton agregarButton;
+    private JButton editarButton;
+    private JButton eliminarButton;
+    private JButton buscarButton;
+    private JTextField buscarField;
+
+    public ClienteView() {
+        setLayout(new BorderLayout());
+        
+        // Panel de botones
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        agregarButton = new JButton("Agregar");
+        editarButton = new JButton("Editar");
+        eliminarButton = new JButton("Eliminar");
+        buttonPanel.add(agregarButton);
+        buttonPanel.add(editarButton);
+        buttonPanel.add(eliminarButton);
+        
+        // Panel de búsqueda
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buscarField = new JTextField(20);
+        buscarButton = new JButton("Buscar");
+        searchPanel.add(new JLabel("Buscar:"));
+        searchPanel.add(buscarField);
+        searchPanel.add(buscarButton);
+        
+        // Panel superior
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(buttonPanel, BorderLayout.WEST);
+        topPanel.add(searchPanel, BorderLayout.EAST);
+        
+        // Tabla de clientes
+        clientesTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(clientesTable);
+        
+        add(topPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    // Getters para los componentes
+    public JTable getClientesTable() { return clientesTable; }
+    public JButton getAgregarButton() { return agregarButton; }
+    public JButton getEditarButton() { return editarButton; }
+    public JButton getEliminarButton() { return eliminarButton; }
+    public JButton getBuscarButton() { return buscarButton; }
+    public JTextField getBuscarField() { return buscarField; }
+    
+    public void actualizarTablaClientes(Object[][] data, String[] columnNames) {
+        clientesTable.setModel(new DefaultTableModel(data, columnNames));
+    }
+    
+    public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+}
