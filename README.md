@@ -68,7 +68,7 @@ IMG
 
 # 📐 Diagrama de Clases UML
 
-Diagrama
+<img width="1477" height="595" alt="image" src="https://github.com/user-attachments/assets/ca0b4475-e30c-4fc8-b4fe-dd2354eb2d55" />
 
 #🎥 Video de Sustentación
 
