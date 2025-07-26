@@ -1,11 +1,9 @@
 package view;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
-//import java.util.Date;
 
 public class ReservaView extends JPanel {
     private JTable reservasTable;
@@ -20,6 +18,16 @@ public class ReservaView extends JPanel {
 
     public ReservaView() {
         setLayout(new BorderLayout());
+        
+        // Crear modelo de tabla no editable
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Todas las celdas no editables
+            }
+        };
+        
+        reservasTable = new JTable(model);
         
         // Panel de botones
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -52,7 +60,6 @@ public class ReservaView extends JPanel {
         topPanel.add(searchPanel, BorderLayout.EAST);
         
         // Tabla de reservas
-        reservasTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(reservasTable);
         
         add(topPanel, BorderLayout.NORTH);
@@ -71,7 +78,9 @@ public class ReservaView extends JPanel {
     public JComboBox<String> getFiltroEstadoComboBox() { return filtroEstadoComboBox; }
     
     public void actualizarTablaReservas(Object[][] data, String[] columnNames) {
-        reservasTable.setModel(new DefaultTableModel(data, columnNames));
+        DefaultTableModel model = (DefaultTableModel) reservasTable.getModel();
+        model.setDataVector(data, columnNames);
+        model.fireTableDataChanged();
     }
     
     public void mostrarMensaje(String mensaje) {

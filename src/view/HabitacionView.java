@@ -1,6 +1,5 @@
 package view;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -18,6 +17,16 @@ public class HabitacionView extends JPanel {
 
     public HabitacionView() {
         setLayout(new BorderLayout());
+        
+        // Crear modelo de tabla no editable
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        habitacionesTable = new JTable(model);
         
         // Panel de botones
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -48,7 +57,6 @@ public class HabitacionView extends JPanel {
         topPanel.add(filterPanel, BorderLayout.EAST);
         
         // Tabla de habitaciones
-        habitacionesTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(habitacionesTable);
         
         add(topPanel, BorderLayout.NORTH);
@@ -66,7 +74,9 @@ public class HabitacionView extends JPanel {
     public JButton getLimpiarFiltrosButton() { return limpiarFiltrosButton; }
     
     public void actualizarTablaHabitaciones(Object[][] data, String[] columnNames) {
-        habitacionesTable.setModel(new DefaultTableModel(data, columnNames));
+        DefaultTableModel model = (DefaultTableModel) habitacionesTable.getModel();
+        model.setDataVector(data, columnNames);
+        model.fireTableDataChanged();
     }
     
     public void mostrarMensaje(String mensaje) {
@@ -107,8 +117,40 @@ public class HabitacionView extends JPanel {
     public int getHabitacionSeleccionada() {
         int row = habitacionesTable.getSelectedRow();
         if (row >= 0) {
-            return (int) habitacionesTable.getValueAt(row, 0); // Asumiendo que la columna 0 es el número
+            return (int) habitacionesTable.getValueAt(row, 0);
         }
         return -1;
+    }
+    
+    // Diálogo para agregar/editar habitación
+    public Object[] mostrarDialogoHabitacion(int numeroActual, String tipoActual) {
+        JTextField numeroField = new JTextField(5);
+        JComboBox<String> tipoCombo = new JComboBox<>(new String[]{"Individual", "Doble", "Suite"});
+        
+        if (numeroActual > 0) {
+            numeroField.setText(String.valueOf(numeroActual));
+            numeroField.setEditable(false);
+            tipoCombo.setSelectedItem(tipoActual);
+        }
+        
+        Object[] message = {
+            "Número:", numeroField,
+            "Tipo:", tipoCombo
+        };
+        
+        int option = JOptionPane.showConfirmDialog(
+            this, 
+            message, 
+            numeroActual > 0 ? "Editar Habitación" : "Agregar Habitación", 
+            JOptionPane.OK_CANCEL_OPTION
+        );
+        
+        if (option == JOptionPane.OK_OPTION) {
+            return new Object[]{
+                numeroField.getText(),
+                tipoCombo.getSelectedItem()
+            };
+        }
+        return null;
     }
 }

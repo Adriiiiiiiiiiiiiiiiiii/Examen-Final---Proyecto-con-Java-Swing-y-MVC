@@ -1,0 +1,2 @@
+admin|admin123|Administrador Principal|Administrador
+recepcion|recepcion123|Recepcionista|Recepcionista

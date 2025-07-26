@@ -1,10 +1,12 @@
 package controller;
 
-
 import model.Cliente;
 import model.HotelDatabase;
 import view.ClienteView;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -28,6 +30,21 @@ public class ClienteController {
         view.getAgregarButton().addActionListener(e -> agregarCliente());
         view.getEditarButton().addActionListener(e -> editarCliente());
         view.getEliminarButton().addActionListener(e -> eliminarCliente());
+        
+        // Búsqueda automática al escribir
+        view.getBuscarField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String textoBusqueda = view.getBuscarField().getText().trim();
+                if (textoBusqueda.isEmpty()) {
+                    cargarClientes();
+                } else {
+                    buscarCliente();
+                }
+            }
+        });
+        
+        // También mantener el botón de búsqueda
         view.getBuscarButton().addActionListener(e -> buscarCliente());
     }
     
@@ -205,7 +222,7 @@ public class ClienteController {
                          c.getApellido().toLowerCase().contains(textoBusqueda) ||
                          (c.getTelefono() != null && c.getTelefono().toLowerCase().contains(textoBusqueda)) ||
                          (c.getEmail() != null && c.getEmail().toLowerCase().contains(textoBusqueda)))
-            .toList();
+            .collect(Collectors.toList());
         
         mostrarClientesEnTabla(clientes);
     }

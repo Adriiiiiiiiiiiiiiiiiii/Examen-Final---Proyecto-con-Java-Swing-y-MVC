@@ -5,12 +5,19 @@ public class Habitacion {
     private TipoHabitacion tipo;
     private boolean disponible;
 
-    public Habitacion(int numero, TipoHabitacion tipo) {
+    // Constructor con parámetro disponible
+    public Habitacion(int numero, TipoHabitacion tipo, boolean disponible) {
         this.numero = numero;
         this.tipo = tipo;
-        this.disponible = true;
+        this.disponible = disponible;
     }
 
+    // Constructor que asume disponible=true por defecto
+    public Habitacion(int numero, TipoHabitacion tipo) {
+        this(numero, tipo, true); // Llama al constructor principal con disponible=true
+    }
+
+    // Getters y setters
     public int getNumero() {
         return numero;
     }
@@ -34,7 +41,4 @@ public class Habitacion {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
-
-    // Getters y setters
-    
 }

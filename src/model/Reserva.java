@@ -11,14 +11,22 @@ public class Reserva implements Pago {
     private boolean checkIn;
     private boolean checkOut;
 
-    public Reserva(String id, Cliente cliente, Habitacion habitacion, Date fechaInicio, Date fechaFin) {
+    // Constructor con todos los parámetros
+    public Reserva(String id, Cliente cliente, Habitacion habitacion, 
+                 Date fechaInicio, Date fechaFin, boolean checkIn, boolean checkOut) {
         this.id = id;
         this.cliente = cliente;
         this.habitacion = habitacion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.checkIn = false;
-        this.checkOut = false;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
+
+    // Constructor que asume checkIn y checkOut como false por defecto
+    public Reserva(String id, Cliente cliente, Habitacion habitacion, 
+                 Date fechaInicio, Date fechaFin) {
+        this(id, cliente, habitacion, fechaInicio, fechaFin, false, false);
     }
 
     // Getters y setters

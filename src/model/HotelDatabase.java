@@ -25,5 +25,7 @@ public interface HotelDatabase {
     Usuario autenticar(String username, String password);
 
     void eliminarCliente(String dni);
+
+    void eliminarReserva(String idReserva);
     
 }

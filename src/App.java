@@ -1,12 +1,10 @@
+import model.FileHotelDatabase;
 import model.HotelDatabase;
-import model.SQLiteHotelDatabase; // Implementación concreta
 import view.LoginView;
 import controller.LoginController;
-
 public class App {
     public static void main(String[] args) throws Exception {
-        // Inicializar la base de datos
-        HotelDatabase database = new SQLiteHotelDatabase();
+        HotelDatabase database = new FileHotelDatabase();
         
         // Inicializar la vista de login
         LoginView loginView = new LoginView();

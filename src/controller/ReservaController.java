@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 public class ReservaController {
     private ReservaView view;
     private HotelDatabase model;
@@ -104,15 +105,37 @@ public class ReservaController {
     }
     
     private void cancelarReserva() {
-        String id = view.getReservaSeleccionada();
-        if (id == null) {
+        String idReserva = view.getReservaSeleccionada();
+        if (idReserva == null) {
             view.mostrarMensaje("Seleccione una reserva para cancelar");
             return;
         }
-        
-        // Implementar lógica para cancelar reserva
-        // Liberar habitación
-        // Actualizar tabla
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+            view,
+            "¿Está seguro que desea cancelar esta reserva?",
+            "Confirmar Cancelación",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                Reserva reserva = model.obtenerReserva(idReserva);
+                if (reserva != null) {
+                    // Liberar la habitación
+                    reserva.getHabitacion().setDisponible(true);
+                    model.guardarHabitacion(reserva.getHabitacion());
+                    
+                    // Eliminar la reserva
+                    model.eliminarReserva(idReserva);
+                    
+                    view.mostrarMensaje("Reserva cancelada exitosamente");
+                    cargarReservas();
+                }
+            } catch (Exception e) {
+                view.mostrarMensaje("Error al cancelar reserva: " + e.getMessage());
+            }
+        }
     }
     
     private void hacerCheckIn() {

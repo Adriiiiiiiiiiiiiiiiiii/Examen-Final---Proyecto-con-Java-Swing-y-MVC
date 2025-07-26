@@ -15,6 +15,16 @@ public class ClienteView extends JPanel {
     public ClienteView() {
         setLayout(new BorderLayout());
         
+        // Crear modelo de tabla no editable
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hace que todas las celdas sean no editables
+            }
+        };
+        
+        clientesTable = new JTable(model);
+        
         // Panel de botones
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         agregarButton = new JButton("Agregar");
@@ -38,7 +48,6 @@ public class ClienteView extends JPanel {
         topPanel.add(searchPanel, BorderLayout.EAST);
         
         // Tabla de clientes
-        clientesTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(clientesTable);
         
         add(topPanel, BorderLayout.NORTH);
@@ -54,7 +63,9 @@ public class ClienteView extends JPanel {
     public JTextField getBuscarField() { return buscarField; }
     
     public void actualizarTablaClientes(Object[][] data, String[] columnNames) {
-        clientesTable.setModel(new DefaultTableModel(data, columnNames));
+        DefaultTableModel model = (DefaultTableModel) clientesTable.getModel();
+        model.setDataVector(data, columnNames);
+        model.fireTableDataChanged();
     }
     
     public void mostrarMensaje(String mensaje) {
