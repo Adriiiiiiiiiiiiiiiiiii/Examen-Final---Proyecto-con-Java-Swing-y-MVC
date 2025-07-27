@@ -1,9 +1,9 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class ReservaView extends JPanel {
     private JTable reservasTable;
@@ -15,6 +15,8 @@ public class ReservaView extends JPanel {
     private JButton buscarPorApellidoButton;
     private JTextField buscarField;
     private JComboBox<String> filtroEstadoComboBox;
+    private JButton verTotalButton;
+
 
     public ReservaView() {
         setLayout(new BorderLayout());
@@ -39,7 +41,9 @@ public class ReservaView extends JPanel {
         buttonPanel.add(cancelarReservaButton);
         buttonPanel.add(checkInButton);
         buttonPanel.add(checkOutButton);
-        
+        verTotalButton = new JButton("Ver Total a Pagar");
+        buttonPanel.add(verTotalButton);
+
         // Panel de búsqueda
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         filtroEstadoComboBox = new JComboBox<>(new String[]{"Todas", "Pendientes", "Check-In", "Check-Out", "Canceladas"});
@@ -76,6 +80,10 @@ public class ReservaView extends JPanel {
     public JButton getBuscarPorApellidoButton() { return buscarPorApellidoButton; }
     public JTextField getBuscarField() { return buscarField; }
     public JComboBox<String> getFiltroEstadoComboBox() { return filtroEstadoComboBox; }
+    public JButton getVerTotalButton() {
+    return verTotalButton;
+}
+
     
     public void actualizarTablaReservas(Object[][] data, String[] columnNames) {
         DefaultTableModel model = (DefaultTableModel) reservasTable.getModel();
@@ -132,6 +140,7 @@ public class ReservaView extends JPanel {
     public String getTextoBusqueda() {
         return buscarField.getText();
     }
+    
     
     // Método para mostrar diálogo de nueva reserva
     public Object[] mostrarDialogoNuevaReserva() {

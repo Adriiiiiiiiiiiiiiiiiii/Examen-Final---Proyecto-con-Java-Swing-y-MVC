@@ -1,10 +1,11 @@
 package controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import model.Habitacion;
 import model.HotelDatabase;
 import model.TipoHabitacion;
 import view.HabitacionView;
-import java.util.List;
 
 public class HabitacionController {
     private HabitacionView view;
@@ -117,18 +118,18 @@ public class HabitacionController {
         }
     }
     
-    private void filtrarHabitaciones() {
-        String tipo = view.getTipoFiltroSeleccionado();
-        String disponibilidad = view.getDisponibilidadFiltroSeleccionado();
-        
-        List<Habitacion> habitacionesFiltradas = model.listarHabitaciones()
-            .stream()
-            .filter(h -> tipo.equals("Todos") || h.getTipo().getDescripcion().equals(tipo))
-            .filter(h -> disponibilidad.equals("Todas") || 
-                  (disponibilidad.equals("Disponibles") && h.isDisponible()) || 
-                  (disponibilidad.equals("Ocupadas") && !h.isDisponible()))
-            .toList();
-        
-        mostrarHabitacionesEnTabla(habitacionesFiltradas);
-    }
+   private void filtrarHabitaciones() {
+    String tipo = view.getTipoFiltroSeleccionado();
+    String disponibilidad = view.getDisponibilidadFiltroSeleccionado();
+
+    List<Habitacion> habitacionesFiltradas = model.listarHabitaciones()
+        .stream()
+        .filter(h -> tipo.equals("Todos") || h.getTipo().getDescripcion().equals(tipo))
+        .filter(h -> disponibilidad.equals("Todas") ||
+              (disponibilidad.equals("Disponibles") && h.isDisponible()) ||
+              (disponibilidad.equals("Ocupadas") && !h.isDisponible()))
+        .collect(Collectors.toList()); 
+
+    mostrarHabitacionesEnTabla(habitacionesFiltradas);
+}
 }
