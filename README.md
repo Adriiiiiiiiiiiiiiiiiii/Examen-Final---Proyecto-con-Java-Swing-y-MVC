@@ -43,7 +43,7 @@ No permite reservas solapadas.
 
 Formularios con campos obligatorios.
 
-Persistencia de datos en SQLite o archivos.
+Persistencia de datos en TXT.
 
 POO avanzada: herencia, interfaces, enums y polimorfismo.
 
@@ -72,8 +72,8 @@ POO avanzada: herencia, interfaces, enums y polimorfismo.
 
 # 📐 Diagrama de Clases UML
 
-<img width="1477" height="595" alt="image" src="https://github.com/user-attachments/assets/ca0b4475-e30c-4fc8-b4fe-dd2354eb2d55" />
+<img width="1479" height="484" alt="image" src="https://github.com/user-attachments/assets/1200b8f6-0a20-4e1c-a006-4c2f8227e5c4" />
 
 #🎥 Video de Sustentación
 
-Link al video
+https://youtu.be/xiqQLwGUuhg
