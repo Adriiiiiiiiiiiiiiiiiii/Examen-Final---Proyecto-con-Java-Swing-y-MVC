@@ -1,4 +1,7 @@
 102|DOBLE|false
-201|SUITE|true
 203|SUITE|true
 101|INDIVIDUAL|false
+301|INDIVIDUAL|false
+302|DOBLE|false
+303|SUITE|false
+201|SUITE|false

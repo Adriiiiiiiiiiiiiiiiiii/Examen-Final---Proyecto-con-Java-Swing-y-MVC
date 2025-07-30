@@ -16,11 +16,12 @@ public class ReservaView extends JPanel {
     private JTextField buscarField;
     private JComboBox<String> filtroEstadoComboBox;
     private JButton verTotalButton;
+    private JButton verTarifasButton;
 
 
     public ReservaView() {
         setLayout(new BorderLayout());
-        
+
         // Crear modelo de tabla no editable
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -28,9 +29,9 @@ public class ReservaView extends JPanel {
                 return false; // Todas las celdas no editables
             }
         };
-        
+
         reservasTable = new JTable(model);
-        
+
         // Panel de botones
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         nuevaReservaButton = new JButton("Nueva Reserva");
@@ -44,28 +45,30 @@ public class ReservaView extends JPanel {
         verTotalButton = new JButton("Ver Total a Pagar");
         buttonPanel.add(verTotalButton);
 
+
         // Panel de búsqueda
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         filtroEstadoComboBox = new JComboBox<>(new String[]{"Todas", "Pendientes", "Check-In", "Check-Out", "Canceladas"});
         buscarField = new JTextField(20);
         buscarPorFechaButton = new JButton("Buscar por Fecha");
         buscarPorApellidoButton = new JButton("Buscar por Apellido");
-        
+        verTarifasButton = new JButton("Ver Tarifas por Día");
+        buttonPanel.add(verTarifasButton);
         searchPanel.add(new JLabel("Estado:"));
         searchPanel.add(filtroEstadoComboBox);
         searchPanel.add(new JLabel("Buscar:"));
         searchPanel.add(buscarField);
         searchPanel.add(buscarPorFechaButton);
         searchPanel.add(buscarPorApellidoButton);
-        
+
         // Panel superior
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(buttonPanel, BorderLayout.WEST);
         topPanel.add(searchPanel, BorderLayout.EAST);
-        
+
         // Tabla de reservas
         JScrollPane scrollPane = new JScrollPane(reservasTable);
-        
+
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -80,50 +83,52 @@ public class ReservaView extends JPanel {
     public JButton getBuscarPorApellidoButton() { return buscarPorApellidoButton; }
     public JTextField getBuscarField() { return buscarField; }
     public JComboBox<String> getFiltroEstadoComboBox() { return filtroEstadoComboBox; }
+    public JButton getVerTarifasButton() {
+        return verTarifasButton;
+    }
     public JButton getVerTotalButton() {
-    return verTotalButton;
-}
+    return verTotalButton;}
 
-    
+
     public void actualizarTablaReservas(Object[][] data, String[] columnNames) {
         DefaultTableModel model = (DefaultTableModel) reservasTable.getModel();
         model.setDataVector(data, columnNames);
         model.fireTableDataChanged();
     }
-    
+
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje);
     }
-    
+
     // Métodos para agregar listeners
     public void agregarNuevaReservaListener(ActionListener listener) {
         nuevaReservaButton.addActionListener(listener);
     }
-    
+
     public void agregarCancelarReservaListener(ActionListener listener) {
         cancelarReservaButton.addActionListener(listener);
     }
-    
+
     public void agregarCheckInListener(ActionListener listener) {
         checkInButton.addActionListener(listener);
     }
-    
+
     public void agregarCheckOutListener(ActionListener listener) {
         checkOutButton.addActionListener(listener);
     }
-    
+
     public void agregarBuscarPorFechaListener(ActionListener listener) {
         buscarPorFechaButton.addActionListener(listener);
     }
-    
+
     public void agregarBuscarPorApellidoListener(ActionListener listener) {
         buscarPorApellidoButton.addActionListener(listener);
     }
-    
+
     public void agregarFiltroEstadoListener(ActionListener listener) {
         filtroEstadoComboBox.addActionListener(listener);
     }
-    
+
     // Métodos para obtener datos de selección
     public String getReservaSeleccionada() {
         int row = reservasTable.getSelectedRow();
@@ -132,37 +137,37 @@ public class ReservaView extends JPanel {
         }
         return null;
     }
-    
+
     public String getEstadoFiltroSeleccionado() {
         return (String) filtroEstadoComboBox.getSelectedItem();
     }
-    
+
     public String getTextoBusqueda() {
         return buscarField.getText();
     }
-    
-    
+
+
     // Método para mostrar diálogo de nueva reserva
     public Object[] mostrarDialogoNuevaReserva() {
         JTextField clienteField = new JTextField();
         JTextField habitacionField = new JTextField();
         JTextField fechaInicioField = new JTextField();
         JTextField fechaFinField = new JTextField();
-        
+
         Object[] message = {
             "DNI Cliente:", clienteField,
             "Número Habitación:", habitacionField,
             "Fecha Inicio (dd/mm/aaaa):", fechaInicioField,
             "Fecha Fin (dd/mm/aaaa):", fechaFinField
         };
-        
+
         int option = JOptionPane.showConfirmDialog(
-            this, 
-            message, 
-            "Nueva Reserva", 
+            this,
+            message,
+            "Nueva Reserva",
             JOptionPane.OK_CANCEL_OPTION
         );
-        
+
         if (option == JOptionPane.OK_OPTION) {
             return new Object[]{
                 clienteField.getText(),
@@ -172,5 +177,22 @@ public class ReservaView extends JPanel {
             };
         }
         return null;
+    }
+    public void mostrarTarifasHabitaciones(java.util.Map<String, Double> tarifas) {
+        String[] columnNames = {"Tipo de Habitación", "Precio por Día"};
+        Object[][] data = new Object[tarifas.size()][2];
+
+        int i = 0;
+        for (var entry : tarifas.entrySet()) {
+            data[i][0] = entry.getKey();
+            data[i][1] = "$" + entry.getValue();
+            i++;
+        }
+
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(300, tarifas.size() * 25 + 50));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Tarifas por Tipo de Habitación", JOptionPane.INFORMATION_MESSAGE);
     }
 }

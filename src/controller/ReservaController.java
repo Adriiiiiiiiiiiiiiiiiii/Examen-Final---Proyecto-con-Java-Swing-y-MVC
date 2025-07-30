@@ -2,7 +2,9 @@ package controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import model.*;
@@ -33,8 +35,7 @@ public class ReservaController {
         view.agregarBuscarPorFechaListener(e -> buscarPorFecha());
         view.agregarBuscarPorApellidoListener(e -> buscarPorApellido());
         view.agregarFiltroEstadoListener(e -> filtrarPorEstado());
-
-        // 👉 NUEVO: Listener del botón "Ver Total a Pagar"
+        view.getVerTarifasButton().addActionListener(e -> mostrarTarifasHabitaciones());
         view.getVerTotalButton().addActionListener(e -> mostrarTotalPagar());
     }
 
@@ -205,7 +206,7 @@ public class ReservaController {
         mostrarReservasEnTabla(filtradas);
     }
 
-    // ✅ NUEVO: Método para mostrar el total a pagar
+    //  Método para mostrar el total a pagar
     private void mostrarTotalPagar() {
         String id = view.getReservaSeleccionada();
         if (id == null) {
@@ -221,5 +222,15 @@ public class ReservaController {
 
         double total = reserva.calcularTotal();
         view.mostrarMensaje("El total a pagar por esta reserva es: $" + total);
+
+
+    }
+    private void mostrarTarifasHabitaciones() {
+        Map<String, Double> tarifas = new HashMap<>();
+        tarifas.put("Individual", 100.0);
+        tarifas.put("Doble", 180.0);
+        tarifas.put("Suite", 300.0);
+
+        view.mostrarTarifasHabitaciones(tarifas);
     }
 }
