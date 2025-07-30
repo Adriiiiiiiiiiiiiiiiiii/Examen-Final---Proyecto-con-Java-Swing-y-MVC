@@ -51,20 +51,24 @@ POO avanzada: herencia, interfaces, enums y polimorfismo.
 
 1. Login de usuario
 
-IMG
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3e61d8a8-5f67-4adc-aa42-f6b6cf3b6783" />
+
 
 2. Menú principal con pestañas
 
-IMG
+<img width="789" height="602" alt="image" src="https://github.com/user-attachments/assets/887c35c1-a394-45e8-8b94-adf2fc24741d" />
+
 
 3. Formulario de reservas
 
-IMG
+<img width="1913" height="1079" alt="image" src="https://github.com/user-attachments/assets/2ab6b11b-1d2e-41a6-b26f-676ba1a19114" />
+
 
 
 5. Tabla de habitaciones
 
-IMG
+<img width="366" height="214" alt="image" src="https://github.com/user-attachments/assets/276ac53f-3e78-49b8-9d87-46fc94d2418e" />
+
 
 # 📐 Diagrama de Clases UML
 
